@@ -2,16 +2,6 @@ import { Field, SmartContract, state, State, Poseidon, Proof, UInt64, method, Ex
 import { HashProof } from './Hashproof';
 
 
-export const HASH_PER_BREAKPOINT = 1000000;
-export function runHash(counter: number,  x: Field): Field {
-  let res = x;
-  for (let ii = counter; ii < counter + HASH_PER_BREAKPOINT; ++ii) {
-    res = Poseidon.hash([res]);
-
-  }
-  return res;
-}
-
 
 
 

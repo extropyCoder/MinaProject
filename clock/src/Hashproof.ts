@@ -1,6 +1,18 @@
 
 import { Field, Experimental, Circuit , UInt64, Poseidon} from 'snarkyjs';
-import { runHash } from './Clock';
+
+
+export const HASH_PER_BREAKPOINT = 1000000;
+export function runHash(counter: number,  x: Field): Field {
+  let res = x;
+  for (let ii = counter; ii < counter + HASH_PER_BREAKPOINT; ++ii) {
+    res = Poseidon.hash([res]);
+
+  }
+  return res;
+}
+
+
 
 export const HashProof = Experimental.ZkProgram({
     publicInput: Field,
