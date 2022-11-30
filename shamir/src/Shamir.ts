@@ -1,5 +1,12 @@
 import { SmartContract, method, UInt32,UInt64, Field , Circuit, Struct} from 'snarkyjs';
 
+export class SharePoint extends Struct({
+  x_value : UInt64,
+  y_value : UInt64,
+
+}){
+  
+}
 
 
 export function evaluatePolynomial( x : UInt64, coefficients : UInt64[]) : UInt64 {
@@ -42,11 +49,6 @@ export function interpolate(x_shares : UInt64[], y_shares: UInt64[], poly_degree
   return result;
 }
 
-export class point extends Struct({
-  x_value : UInt64,
-  y_value : UInt64,
-
-}){}
 
 export class Shamir extends SmartContract {
 
