@@ -1,4 +1,4 @@
-import { evaluatePolynomial, Shamir } from './Shamir';
+import { evaluatePolynomial, interpolate, Shamir } from './Shamir';
 import {
   isReady,
   shutdown,
@@ -110,6 +110,50 @@ describe('Shamir', () => {
     await txn.send();
   });
 
+
+  it('interpolates polynomial 1 ', async () => {
+
+    const zkAppInstance = new Shamir(zkAppAddress);
+    await localDeploy();
+    const txn = await Mina.transaction(deployerAccount, () => {
+    
+      let x1  = UInt64.from(1);
+      let x2  = UInt64.from(2);
+
+      let y1  = UInt64.from(2);
+      let y2  = UInt64.from(4);
+
+      const res = interpolate([x1,x2], [y1,y2],UInt64.from(2));
+      expect(res).toEqual(UInt64.zero);
+
+    });
+    await txn.prove();
+    await txn.send();
+  });
+
+
+  it('interpolates polynomial 2 ', async () => {
+
+    const zkAppInstance = new Shamir(zkAppAddress);
+    await localDeploy();
+    const txn = await Mina.transaction(deployerAccount, () => {
+    
+      let x1  = UInt64.from(1);
+      let x2  = UInt64.from(2);
+
+      let y1  = UInt64.from(5);
+      let y2  = UInt64.from(7);
+
+      const res = interpolate([x1,x2], [y1,y2],UInt64.from(2));
+      expect(res).toEqual(UInt64.from(3));
+
+    });
+    await txn.prove();
+    await txn.send();
+  });
+
+
+
   it('tests polynomial 2', async () => {
 
     const zkAppInstance = new Shamir(zkAppAddress);
@@ -125,6 +169,8 @@ describe('Shamir', () => {
     await txn.send();
   });
 
+
+  
 
   async function localDeploy() {
     const txn = await Mina.transaction(deployerAccount, () => {
